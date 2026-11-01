@@ -1,0 +1,13 @@
+{
+  "name": "factory-test",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Sandbox repo for the agent factory: a tiny library with tests.",
+  "scripts": {
+    "test": "node --test"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}
