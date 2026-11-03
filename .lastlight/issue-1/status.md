@@ -1,4 +1,5 @@
-current_phase: reviewer
+current_phase: complete
+pr_number: 2
 branch: lastlight/1-slugify-optional-maxlength-that-cuts-at-
 test_command: npm test
 notes: |
