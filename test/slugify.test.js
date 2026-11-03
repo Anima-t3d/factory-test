@@ -55,6 +55,11 @@ test("returns the full slug when maxLength is not binding", () => {
   assert.equal(slugify("Hello Big World", { maxLength: 100 }), "hello-big-world");
 });
 
+test("returns the full slug unchanged when maxLength is longer than the slug", () => {
+  assert.equal(slugify("Hello Big World", { maxLength: 16 }), "hello-big-world");
+  assert.equal(slugify("Hello Big World", { maxLength: 50 }), "hello-big-world");
+});
+
 test("keeps an exact fit", () => {
   assert.equal(slugify("Hello Big World", { maxLength: 5 }), "hello");
 });
