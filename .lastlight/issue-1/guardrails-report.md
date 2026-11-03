@@ -37,3 +37,35 @@ setup phase.
 - Lint/typecheck tooling must not be added just to satisfy this build — the
   issue only asks for tests, the doc comment, and `npm test` passing, and
   `AGENTS.md` forbids new dependencies.
+
+## Full test suite gate (run by the harness)
+
+- Verdict: READY — full test suite passed (exit 0) in 0s
+- Command (`.git/lastlight-gate.sh`):
+```sh
+#!/usr/bin/env bash
+set -euo pipefail
+npm test
+```
+- Exit code: 0 · duration: 0s · limit: gate.timeoutSeconds=900s
+
+Last 60 lines of output:
+```
+npm warn Unknown env config "store-dir". This will stop working in the next major version of npm. See `npm help npmrc` for supported config options.
+
+> factory-test@0.1.0 test
+> node --test
+
+✔ joins words with dashes (2.092697ms)
+✔ strips accents (0.469142ms)
+✔ drops leading, trailing and repeated separators (0.254892ms)
+✔ returns an empty string when nothing is left (3.626909ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 4
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 203.448946
+```
