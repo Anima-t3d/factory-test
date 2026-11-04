@@ -51,3 +51,35 @@ run; noted only.
 set -euo pipefail
 npm test
 ```
+
+## Full test suite gate (run by the harness)
+
+- Verdict: READY — full test suite passed (exit 0) in 1s
+- Command (`.git/lastlight-gate.sh`):
+```sh
+#!/usr/bin/env bash
+set -euo pipefail
+npm test
+```
+- Exit code: 0 · duration: 1s · limit: gate.timeoutSeconds=900s
+
+Last 60 lines of output:
+```
+npm warn Unknown env config "store-dir". This will stop working in the next major version of npm. See `npm help npmrc` for supported config options.
+
+> factory-test@0.1.0 test
+> node --test
+
+✔ joins words with dashes (1.963508ms)
+✔ strips accents (0.441093ms)
+✔ drops leading, trailing and repeated separators (0.297628ms)
+✔ returns an empty string when nothing is left (0.22503ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 4
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 203.525354
+```
