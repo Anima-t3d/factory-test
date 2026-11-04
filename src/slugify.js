@@ -24,6 +24,8 @@ const isLowSurrogate = (codeUnit) => codeUnit >= 0xdc00 && codeUnit <= 0xdfff;
  * a word, it moves back to the last space (U+0020) before the cut, that space is
  * dropped, and "…" is appended; the result can then be shorter than `maxLength`,
  * but is never longer and never ends with whitespace before the ellipsis.
+ * Trailing punctuation (".", ",", ";", ":") left by the cut is removed before
+ * the ellipsis, so "Hello, world" at 7 becomes "Hello…" rather than "Hello,…".
  *
  * `maxLength` is measured in UTF-16 code units, the same unit as `String#length`,
  * and must be a positive integer. A cut that would split a surrogate pair is moved
@@ -58,13 +60,21 @@ export function truncate(text, maxLength) {
 
   if (splitsWord(text, keep)) {
     const boundary = head.lastIndexOf(" ");
-    const atSpace = boundary > 0 ? head.slice(0, boundary).trimEnd() : "";
+    const atSpace =
+      boundary > 0
+        ? trimTrailingPunctuation(head.slice(0, boundary).trimEnd())
+        : "";
     if (atSpace !== "") {
       return `${atSpace}${ellipsis}`;
     }
   }
 
-  return `${head.trimEnd()}${ellipsis}`;
+  return `${trimTrailingPunctuation(head.trimEnd())}${ellipsis}`;
+}
+
+/** Drop trailing sentence punctuation so the ellipsis does not follow it. */
+function trimTrailingPunctuation(text) {
+  return text.replace(/[.,;:]+$/, "");
 }
 
 /** Move a cut index back one code unit when it would split a surrogate pair. */

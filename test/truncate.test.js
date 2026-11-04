@@ -81,3 +81,17 @@ test("never exceeds maxLength and never leaves whitespace before the ellipsis", 
     }
   }
 });
+
+test("trims trailing punctuation before adding the ellipsis", () => {
+  assert.equal(truncate("Hello, world", 7), "Hello…");
+  assert.equal(truncate("Hello, world", 8), "Hello…");
+  assert.equal(truncate("Wait; what; ok", 9), "Wait…");
+  assert.equal(truncate("Really: yes indeed", 8), "Really…");
+  assert.equal(truncate("Stop. Now please", 6), "Stop…");
+  assert.equal(truncate("Okay..., fine", 8), "Okay…");
+});
+
+test("keeps punctuation on text that already fits", () => {
+  assert.equal(truncate("Hello, world", 12), "Hello, world");
+  assert.equal(truncate("Hello!", 6), "Hello!");
+});
