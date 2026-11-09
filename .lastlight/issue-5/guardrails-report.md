@@ -73,3 +73,57 @@ npm test
 All present checks are satisfiable and every absent check (lint, typecheck) is
 allowed by the present-must-pass rule. Setup is complete; awaiting the
 harness's single full-suite run.
+
+## Full test suite gate (run by the harness)
+
+- Verdict: READY — full test suite passed (exit 0) in 1s
+- Command (`.git/lastlight-gate.sh`):
+```sh
+#!/usr/bin/env bash
+set -euo pipefail
+npm test
+```
+- Exit code: 0 · duration: 1s · limit: gate.timeoutSeconds=900s
+
+Last 60 lines of output:
+```
+npm warn Unknown env config "store-dir". This will stop working in the next major version of npm. See `npm help npmrc` for supported config options.
+
+> factory-test@0.1.0 test
+> node --test
+
+✔ joins words with dashes (6.603824ms)
+✔ strips accents (0.702697ms)
+✔ drops leading, trailing and repeated separators (0.440749ms)
+✔ returns an empty string when nothing is left (0.47538ms)
+✔ keeps behaviour unchanged without maxLength (0.546023ms)
+✔ cuts at a word boundary (0.586404ms)
+✔ does not cut a word in half when it can drop it (0.523196ms)
+✔ cuts a single over-long word at maxLength (0.551398ms)
+✔ throws a RangeError for a non-positive maxLength (1.305881ms)
+✔ throws a RangeError for any invalid maxLength (1.165757ms)
+✔ returns the full slug when maxLength is not binding (0.667021ms)
+✔ returns the full slug unchanged when maxLength is longer than the slug (0.390976ms)
+✔ keeps an exact fit (0.48392ms)
+✔ never exceeds maxLength and never ends with a dash (1.054898ms)
+✔ returns text at most maxLength characters unchanged (4.108975ms)
+✔ returns a string of exactly maxLength characters unchanged (0.32063ms)
+✔ cuts at a word boundary and drops the trailing space (0.576271ms)
+✔ rewinds to the last space instead of splitting a word (0.331153ms)
+✔ hard-cuts a single long word without spaces (0.339361ms)
+✔ uses the whole budget for the ellipsis when maxLength is 1 (0.242928ms)
+✔ throws a RangeError when maxLength is less than 1 (0.856491ms)
+✔ throws a RangeError for a non-integer maxLength (0.488517ms)
+✔ throws a TypeError for non-string text (0.456891ms)
+✔ never exceeds maxLength and never leaves whitespace before the ellipsis (1.651999ms)
+✔ trims trailing punctuation before adding the ellipsis (0.319199ms)
+✔ keeps punctuation on text that already fits (0.219118ms)
+ℹ tests 26
+ℹ suites 0
+ℹ pass 26
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 367.852539
+```
