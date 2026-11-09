@@ -59,3 +59,57 @@ nothing else to gate on.
 ## Full test suite gate (run by the harness)
 
 Pending — awaiting the harness run.
+
+## Full test suite gate (run by the harness)
+
+- Verdict: READY — full test suite passed (exit 0) in 1s
+- Command (`.git/lastlight-gate.sh`):
+```sh
+#!/usr/bin/env bash
+set -euo pipefail
+npm test
+```
+- Exit code: 0 · duration: 1s · limit: gate.timeoutSeconds=900s
+
+Last 60 lines of output:
+```
+npm warn Unknown env config "store-dir". This will stop working in the next major version of npm. See `npm help npmrc` for supported config options.
+
+> factory-test@0.1.0 test
+> node --test
+
+✔ joins words with dashes (4.186418ms)
+✔ strips accents (0.438605ms)
+✔ drops leading, trailing and repeated separators (0.294933ms)
+✔ returns an empty string when nothing is left (0.274385ms)
+✔ keeps behaviour unchanged without maxLength (0.339249ms)
+✔ cuts at a word boundary (0.296877ms)
+✔ does not cut a word in half when it can drop it (0.311554ms)
+✔ cuts a single over-long word at maxLength (0.434524ms)
+✔ throws a RangeError for a non-positive maxLength (0.834126ms)
+✔ throws a RangeError for any invalid maxLength (0.644144ms)
+✔ returns the full slug when maxLength is not binding (0.259936ms)
+✔ returns the full slug unchanged when maxLength is longer than the slug (0.266608ms)
+✔ keeps an exact fit (0.264776ms)
+✔ never exceeds maxLength and never ends with a dash (0.610173ms)
+✔ returns text at most maxLength characters unchanged (4.089149ms)
+✔ returns a string of exactly maxLength characters unchanged (0.319332ms)
+✔ cuts at a word boundary and drops the trailing space (0.704054ms)
+✔ rewinds to the last space instead of splitting a word (0.40586ms)
+✔ hard-cuts a single long word without spaces (0.396573ms)
+✔ uses the whole budget for the ellipsis when maxLength is 1 (0.297569ms)
+✔ throws a RangeError when maxLength is less than 1 (0.899532ms)
+✔ throws a RangeError for a non-integer maxLength (0.501713ms)
+✔ throws a TypeError for non-string text (0.509883ms)
+✔ never exceeds maxLength and never leaves whitespace before the ellipsis (4.339248ms)
+✔ trims trailing punctuation before adding the ellipsis (0.760391ms)
+✔ keeps punctuation on text that already fits (0.294102ms)
+ℹ tests 26
+ℹ suites 0
+ℹ pass 26
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 338.037945
+```
