@@ -140,3 +140,31 @@ function splitsWord(text, keep) {
   const last = text[keep - 1];
   return next !== " " && last !== " ";
 }
+
+/**
+ * Upper-case the first character of every word, leaving everything else as is.
+ *
+ * A word starts at the beginning of the string or right after a whitespace
+ * character (anything matched by the regex `\s`: spaces, tabs, newlines, NBSP,
+ * ...). Only that first character is changed, with `String#toUpperCase`; the rest
+ * of the word is not touched, so "iPhone" becomes "IPhone" and "hELLO" becomes
+ * "HELLO". All whitespace is returned exactly as given: runs, tabs, newlines and
+ * leading/trailing whitespace are kept.
+ *
+ * A word that starts with a character that has no upper case form (a digit,
+ * punctuation such as "(" or a quote) is left unchanged; letters after it are not
+ * capitalised. Casing is not locale-aware, and a few characters upper-case to more
+ * than one character ("ß" -> "SS"), so the result can be longer than `text`.
+ * Astral characters (outside the BMP) are handled as a whole code point.
+ *
+ * @param {string} text
+ * @returns {string}
+ * @throws {TypeError} when `text` is not a string
+ */
+export function capitalizeWords(text) {
+  if (typeof text !== "string") {
+    throw new TypeError("text must be a string");
+  }
+
+  return text.replace(/(^|\s)(\S)/gu, (_, before, first) => `${before}${first.toUpperCase()}`);
+}
