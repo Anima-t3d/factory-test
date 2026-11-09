@@ -140,3 +140,23 @@ function splitsWord(text, keep) {
   const last = text[keep - 1];
   return next !== " " && last !== " ";
 }
+
+/**
+ * Count the words in `text`. A word is a run of non-whitespace characters; any
+ * whitespace (spaces, tabs, newlines and the other characters matched by the
+ * JavaScript `\s` class, such as U+00A0 no-break space) separates words.
+ * An empty or whitespace-only string has 0 words.
+ *
+ * Zero-width characters such as U+200B are not whitespace in `\s`, so they do
+ * not split words.
+ *
+ * @param {string} text
+ * @returns {number}
+ * @throws {TypeError} when `text` is not a string
+ */
+export function wordCount(text) {
+  if (typeof text !== "string") {
+    throw new TypeError("text must be a string");
+  }
+  return text.match(/\S+/g)?.length ?? 0;
+}
