@@ -140,3 +140,25 @@ function splitsWord(text, keep) {
   const last = text[keep - 1];
   return next !== " " && last !== " ";
 }
+
+/**
+ * Reverse the order of the words in `text`.
+ *
+ * A word is a maximal run of non-whitespace characters (anything not matched by
+ * the regular-expression class `\s`, which includes spaces, tabs, newlines and
+ * Unicode whitespace such as U+00A0 and U+3000). The words are returned in
+ * reverse order joined by a single space; the original whitespace is not kept.
+ * Characters within a word keep their order. Empty or whitespace-only text
+ * returns an empty string.
+ *
+ * @param {string} text
+ * @returns {string}
+ * @throws {TypeError} when `text` is not a string
+ */
+export function reverseWords(text) {
+  if (typeof text !== "string") {
+    throw new TypeError("text must be a string");
+  }
+
+  return text.split(/\s+/).filter(Boolean).reverse().join(" ");
+}
