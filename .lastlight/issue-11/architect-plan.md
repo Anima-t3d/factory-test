@@ -83,7 +83,7 @@ Notes:
 3. Run `npm test`; all 26 existing tests plus the new ones must pass.
 4. Remove any `package-lock.json` created by `npm install`; confirm `git status` shows only the two new
    files (plus `.lastlight/issue-11/`).
-5. Commit message: `feat(case): add a titleCase helper (#11)`.
+5. Commit message: `feat(case): add a titleCase helper (#11)`; publish with `github_publish` (no `git push`).
 
 ## Risks and edge cases
 
@@ -115,8 +115,8 @@ the only rejected input type throws.
 4. `"only splits words on spaces"` — `"jean-luc PICARD"` → `"Jean-luc Picard"`, `"a\tB"` → `"A\tb"`.
 5. `"leaves a non-letter first character as is"` — `"1ST place"` → `"1st Place"`.
 6. `"does not split a surrogate pair"` — `titleCase("𐐨𐐨")` equals `"𐐀𐐨"` (U+10428 → U+10400 upper,
-   second stays lowercase). Executor: verify the expected string with
-   `node -e 'console.log("\u{10428}".toUpperCase() === "\u{10400}")'` before asserting.
+   second stays lowercase). Verified on Node 24: `"\u{10428}".toUpperCase() === "\u{10400}"`.
+   Write it with escapes: `assert.equal(titleCase("\u{10428}\u{10428}"), "\u{10400}\u{10428}")`.
 7. `"throws a TypeError for non-string text"` — loop over `[null, undefined, 42, ["a"], {}]` with
    `assert.throws(..., TypeError)`.
 
