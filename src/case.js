@@ -62,3 +62,39 @@ export function snakeCase(text) {
     .map((word) => word.toLowerCase())
     .join("_");
 }
+
+/**
+ * Camel-case text: the first word lowercased and every later word capitalised,
+ * joined with no separator, so "hello_world foo" becomes "helloWorldFoo" and
+ * "HELLO_WORLD" becomes "helloWorld".
+ *
+ * Words are split on runs of whitespace, dashes ("-") and underscores ("_"), the
+ * same separators `snakeCase` uses. Leading, trailing and repeated separators are
+ * dropped, so they never produce a leading capital or a doubled capital, and
+ * input with no words returns "".
+ *
+ * Existing camel humps are not split: each word is re-cased as a whole, so
+ * "helloWorld foo" becomes "helloworldFoo". Any other character (punctuation,
+ * digits, accented letters, emoji) is kept inside its word as is; a later word
+ * that starts with a non-letter keeps that character and lowercases the rest
+ * ("version 2nd" becomes "version2nd"). Case mapping uses
+ * `String#toUpperCase`/`toLowerCase` and the first character is taken by code
+ * point, as in `titleCase`.
+ *
+ * @param {string} text
+ * @returns {string}
+ * @throws {TypeError} when `text` is not a string
+ */
+export function camelCase(text) {
+  if (typeof text !== "string") {
+    throw new TypeError("text must be a string");
+  }
+
+  return text
+    .split(/[\s_-]+/u)
+    .filter((word) => word !== "")
+    .map((word, index) =>
+      index === 0 ? word.toLowerCase() : capitalizeWord(word),
+    )
+    .join("");
+}

@@ -1,0 +1,140 @@
+# Guardrails check — issue #13 (Add a camelCase helper to src/case.js)
+
+**Verdict: GATE_PENDING** — normal feature work, not a bootstrap task.
+
+Issue #13 asks for a new `camelCase(text)` export in the existing
+`src/case.js`, plus additional cases in `test/case.test.js`. It does not ask
+for tests, linting, type checking, CI or `AGENTS.md` to be created, so the
+bootstrap escape hatch does not apply: the tooling it needs already exists.
+
+## Install
+
+| Command | Result |
+| --- | --- |
+| `npm ci` | Exit 1 — no `package-lock.json` in the repo (expected) |
+| `npm install` | Exit 0 — "up to date, audited 1 package; found 0 vulnerabilities" |
+
+The repo declares no `dependencies`/`devDependencies` and ships no lockfile;
+the only tooling it needs is Node's built-in test runner. `npm install`
+generated a `package-lock.json` as a side effect; it was removed afterwards so
+the executor's working tree stays clean (`git status --porcelain` empty).
+
+Environment: Node v24.22.1 (repo requires `>=22`).
+
+## Checks
+
+### 1. Test framework — PRESENT, must pass
+
+- `package.json` declares `"test": "node --test"` (Node's built-in runner).
+- Test files exist: `test/case.test.js`, `test/slugify.test.js`,
+  `test/truncate.test.js`.
+- CI (`.github/workflows/test.yml`) runs exactly `npm test`.
+- Not run here per instructions; the harness runs the full suite.
+
+Note for the executor: `src/case.js` already exports `titleCase` (issue #11)
+and `snakeCase` (issue #12), so `camelCase` must be **additive** and must leave
+both existing helpers and their tests untouched.
+
+### 2. Linting — ABSENT (not a blocker)
+
+No ESLint, Biome, oxlint, Prettier or equivalent config file (checked repo
+root), no `lint` script, and no lint step in CI. Nothing to run; noted only.
+
+### 3. Type checking — ABSENT (not a blocker)
+
+No `tsconfig.json`/`jsconfig.json`, no `.ts`/`.tsx` files and no `typecheck`
+script. The codebase is plain ESM JavaScript with JSDoc annotations. Nothing
+to run; noted only.
+
+### 4. CI pipeline — PRESENT (informational)
+
+`.github/workflows/test.yml` runs on `pull_request` and on `push` to `main`,
+on Node 22, with a single step: `npm test`. No lint/typecheck steps. `main` is
+protected and requires this `test` check, per `AGENTS.md`.
+
+## Gate script
+
+`.git/lastlight-gate.sh` (inside `.git`, never committed) contains the full
+suite command exactly as CI runs it:
+
+```sh
+#!/usr/bin/env bash
+set -euo pipefail
+npm test
+```
+
+## Full test suite gate (run by the harness)
+
+_Pending — the harness appends the result here._
+
+## Full test suite gate (run by the harness)
+
+- Verdict: READY — full test suite passed (exit 0) in 1s
+- Command (`.git/lastlight-gate.sh`):
+```sh
+#!/usr/bin/env bash
+set -euo pipefail
+npm test
+```
+- Exit code: 0 · duration: 1s · limit: gate.timeoutSeconds=900s
+
+Last 60 lines of output:
+```
+npm warn Unknown env config "store-dir". This will stop working in the next major version of npm. See `npm help npmrc` for supported config options.
+
+> factory-test@0.1.0 test
+> node --test
+
+✔ uppercases the first letter of each word and lowercases the rest (3.778374ms)
+✔ returns an empty string for an empty string (0.295311ms)
+✔ keeps multiple consecutive spaces (0.271611ms)
+✔ keeps leading and trailing spaces (0.309939ms)
+✔ only splits words on spaces (0.270432ms)
+✔ leaves a non-letter first character as is (0.233555ms)
+✔ does not split a surrogate pair (0.470549ms)
+✔ throws a TypeError for non-string text (1.836167ms)
+✔ snakeCase splits on spaces, dashes and camelCase boundaries (1.501988ms)
+✔ snakeCase lowercases mixed-case and all-uppercase words (0.524411ms)
+✔ snakeCase returns an empty string when there are no words (0.282878ms)
+✔ snakeCase drops leading, trailing and repeated separators (0.301486ms)
+✔ snakeCase leaves snake_case input unchanged (0.221472ms)
+✔ snakeCase splits after a digit before an uppercase letter (0.18926ms)
+✔ snakeCase splits non-ASCII camelCase (0.247085ms)
+✔ snakeCase keeps a run of capitals together (0.223006ms)
+✔ snakeCase keeps other characters inside words (0.23971ms)
+✔ snakeCase throws a TypeError for non-string text (0.312ms)
+✔ joins words with dashes (4.105474ms)
+✔ strips accents (0.53845ms)
+✔ drops leading, trailing and repeated separators (0.252944ms)
+✔ returns an empty string when nothing is left (0.252357ms)
+✔ keeps behaviour unchanged without maxLength (0.309897ms)
+✔ cuts at a word boundary (0.322823ms)
+✔ does not cut a word in half when it can drop it (0.27332ms)
+✔ cuts a single over-long word at maxLength (0.32996ms)
+✔ throws a RangeError for a non-positive maxLength (0.896214ms)
+✔ throws a RangeError for any invalid maxLength (0.829748ms)
+✔ returns the full slug when maxLength is not binding (0.349738ms)
+✔ returns the full slug unchanged when maxLength is longer than the slug (0.296147ms)
+✔ keeps an exact fit (0.233362ms)
+✔ never exceeds maxLength and never ends with a dash (0.572939ms)
+✔ returns text at most maxLength characters unchanged (3.786467ms)
+✔ returns a string of exactly maxLength characters unchanged (0.435316ms)
+✔ cuts at a word boundary and drops the trailing space (0.917716ms)
+✔ rewinds to the last space instead of splitting a word (0.450585ms)
+✔ hard-cuts a single long word without spaces (0.352995ms)
+✔ uses the whole budget for the ellipsis when maxLength is 1 (0.266354ms)
+✔ throws a RangeError when maxLength is less than 1 (0.79285ms)
+✔ throws a RangeError for a non-integer maxLength (0.396427ms)
+✔ throws a TypeError for non-string text (0.482189ms)
+✔ never exceeds maxLength and never leaves whitespace before the ellipsis (1.166297ms)
+✔ trims trailing punctuation before adding the ellipsis (0.369528ms)
+✔ keeps punctuation on text that already fits (0.230022ms)
+ℹ tests 44
+ℹ suites 0
+ℹ pass 44
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 427.848756
+```
