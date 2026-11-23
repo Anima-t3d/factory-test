@@ -11,3 +11,6 @@ executor:
 - `node --test test/case.test.js` -> 32 pass / 0 fail.
 - `npm test` -> EXIT=0, 58 pass / 0 fail.
 - No build/lint/typecheck configured in this repo. Summary: `.lastlight/issue-21/executor-summary.md`.
+
+reviewer_status: APPROVED
+- Reviewer: swapCase matches plan; 58/58 tests pass. Verdict: `.lastlight/issue-21/reviewer-verdict.md`.
