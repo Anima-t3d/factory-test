@@ -1,6 +1,7 @@
 # Status — issue #12
 
-current_phase: executor
+current_phase: complete
+pr_number: 18
 plan: .lastlight/issue-12/architect-plan.md
 report: .lastlight/issue-12/guardrails-report.md
 summary: .lastlight/issue-12/executor-summary.md
