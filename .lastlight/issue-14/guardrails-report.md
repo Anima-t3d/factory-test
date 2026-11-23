@@ -80,3 +80,78 @@ npm test
 ## Full test suite gate (run by the harness)
 
 _Pending — the harness appends the result here._
+
+## Full test suite gate (run by the harness)
+
+- Verdict: READY — full test suite passed (exit 0) in 1s
+- Command (`.git/lastlight-gate.sh`):
+```sh
+#!/usr/bin/env bash
+set -euo pipefail
+npm test
+```
+- Exit code: 0 · duration: 1s · limit: gate.timeoutSeconds=900s
+
+Last 60 lines of output:
+```
+✔ returns an empty string for an empty string (0.360782ms)
+✔ keeps multiple consecutive spaces (0.372274ms)
+✔ keeps leading and trailing spaces (0.483995ms)
+✔ only splits words on spaces (0.432086ms)
+✔ leaves a non-letter first character as is (0.345594ms)
+✔ does not split a surrogate pair (0.349264ms)
+✔ throws a TypeError for non-string text (1.046087ms)
+✔ snakeCase splits on spaces, dashes and camelCase boundaries (1.364532ms)
+✔ snakeCase lowercases mixed-case and all-uppercase words (0.59879ms)
+✔ snakeCase returns an empty string when there are no words (0.356131ms)
+✔ snakeCase drops leading, trailing and repeated separators (0.30065ms)
+✔ snakeCase leaves snake_case input unchanged (0.273583ms)
+✔ snakeCase splits after a digit before an uppercase letter (0.233044ms)
+✔ snakeCase splits non-ASCII camelCase (0.262785ms)
+✔ snakeCase keeps a run of capitals together (2.156952ms)
+✔ snakeCase keeps other characters inside words (0.250749ms)
+✔ snakeCase throws a TypeError for non-string text (0.339616ms)
+✔ camelCase joins words split on spaces, dashes and underscores (0.256794ms)
+✔ camelCase lowercases the first word and capitalises later words (0.142064ms)
+✔ camelCase returns an empty string when there are no words (0.129448ms)
+✔ camelCase drops leading, trailing and repeated separators (0.159973ms)
+✔ camelCase does not split existing camel humps (0.133204ms)
+✔ camelCase is the inverse of snakeCase for snake_case input (0.136105ms)
+✔ camelCase keeps other characters inside words (0.123036ms)
+✔ camelCase does not split a surrogate pair (0.205192ms)
+✔ camelCase throws a TypeError for non-string text (0.326482ms)
+✔ joins words with dashes (8.246198ms)
+✔ strips accents (0.559543ms)
+✔ drops leading, trailing and repeated separators (0.434796ms)
+✔ returns an empty string when nothing is left (0.396723ms)
+✔ keeps behaviour unchanged without maxLength (0.489103ms)
+✔ cuts at a word boundary (0.534052ms)
+✔ does not cut a word in half when it can drop it (0.403454ms)
+✔ cuts a single over-long word at maxLength (0.496775ms)
+✔ throws a RangeError for a non-positive maxLength (1.208254ms)
+✔ throws a RangeError for any invalid maxLength (0.945376ms)
+✔ returns the full slug when maxLength is not binding (0.387384ms)
+✔ returns the full slug unchanged when maxLength is longer than the slug (0.399835ms)
+✔ keeps an exact fit (0.374817ms)
+✔ never exceeds maxLength and never ends with a dash (1.008104ms)
+✔ returns text at most maxLength characters unchanged (3.491927ms)
+✔ returns a string of exactly maxLength characters unchanged (0.265584ms)
+✔ cuts at a word boundary and drops the trailing space (0.675223ms)
+✔ rewinds to the last space instead of splitting a word (0.337645ms)
+✔ hard-cuts a single long word without spaces (0.302838ms)
+✔ uses the whole budget for the ellipsis when maxLength is 1 (0.262104ms)
+✔ throws a RangeError when maxLength is less than 1 (0.877158ms)
+✔ throws a RangeError for a non-integer maxLength (0.41591ms)
+✔ throws a TypeError for non-string text (0.411025ms)
+✔ never exceeds maxLength and never leaves whitespace before the ellipsis (1.072745ms)
+✔ trims trailing punctuation before adding the ellipsis (0.32772ms)
+✔ keeps punctuation on text that already fits (0.24234ms)
+ℹ tests 53
+ℹ suites 0
+ℹ pass 53
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 468.17784
+```
