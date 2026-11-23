@@ -65,3 +65,65 @@ npm test
 ## Full test suite gate (run by the harness)
 
 _Pending — the harness appends the result here._
+
+## Full test suite gate (run by the harness)
+
+- Verdict: READY — full test suite passed (exit 0) in 1s
+- Command (`.git/lastlight-gate.sh`):
+```sh
+#!/usr/bin/env bash
+set -euo pipefail
+npm test
+```
+- Exit code: 0 · duration: 1s · limit: gate.timeoutSeconds=900s
+
+Last 60 lines of output:
+```
+npm warn Unknown env config "store-dir". This will stop working in the next major version of npm. See `npm help npmrc` for supported config options.
+
+> factory-test@0.1.0 test
+> node --test
+
+✔ uppercases the first letter of each word and lowercases the rest (2.518248ms)
+✔ returns an empty string for an empty string (0.389426ms)
+✔ keeps multiple consecutive spaces (4.647583ms)
+✔ keeps leading and trailing spaces (0.374482ms)
+✔ only splits words on spaces (0.282944ms)
+✔ leaves a non-letter first character as is (0.412601ms)
+✔ does not split a surrogate pair (0.433782ms)
+✔ throws a TypeError for non-string text (1.161322ms)
+✔ joins words with dashes (6.80413ms)
+✔ strips accents (0.468518ms)
+✔ drops leading, trailing and repeated separators (0.317242ms)
+✔ returns an empty string when nothing is left (0.303053ms)
+✔ keeps behaviour unchanged without maxLength (0.383289ms)
+✔ cuts at a word boundary (0.371935ms)
+✔ does not cut a word in half when it can drop it (0.381793ms)
+✔ cuts a single over-long word at maxLength (0.367227ms)
+✔ throws a RangeError for a non-positive maxLength (0.818134ms)
+✔ throws a RangeError for any invalid maxLength (0.867674ms)
+✔ returns the full slug when maxLength is not binding (0.34618ms)
+✔ returns the full slug unchanged when maxLength is longer than the slug (0.20432ms)
+✔ keeps an exact fit (0.233301ms)
+✔ never exceeds maxLength and never ends with a dash (0.626745ms)
+✔ returns text at most maxLength characters unchanged (5.361545ms)
+✔ returns a string of exactly maxLength characters unchanged (0.363005ms)
+✔ cuts at a word boundary and drops the trailing space (0.643976ms)
+✔ rewinds to the last space instead of splitting a word (0.409017ms)
+✔ hard-cuts a single long word without spaces (0.508168ms)
+✔ uses the whole budget for the ellipsis when maxLength is 1 (0.383525ms)
+✔ throws a RangeError when maxLength is less than 1 (0.892582ms)
+✔ throws a RangeError for a non-integer maxLength (0.352033ms)
+✔ throws a TypeError for non-string text (0.370737ms)
+✔ never exceeds maxLength and never leaves whitespace before the ellipsis (1.298888ms)
+✔ trims trailing punctuation before adding the ellipsis (0.337875ms)
+✔ keeps punctuation on text that already fits (0.209544ms)
+ℹ tests 34
+ℹ suites 0
+ℹ pass 34
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 433.963589
+```
