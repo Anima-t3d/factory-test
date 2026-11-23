@@ -98,3 +98,27 @@ export function camelCase(text) {
     )
     .join("");
 }
+
+/**
+ * Swap-case text: every uppercase letter is lowercased and every other
+ * character is uppercased, so "Hello World" becomes "hELLO wORLD".
+ *
+ * Characters with no case (digits, spaces, punctuation, emoji) come back
+ * unchanged. Text is walked by code point, so a surrogate pair is never split.
+ * Case mapping uses `String#toUpperCase`/`toLowerCase`, so a character can
+ * change length ("ß" becomes "SS").
+ *
+ * @param {string} text
+ * @returns {string}
+ * @throws {TypeError} when `text` is not a string
+ */
+export function swapCase(text) {
+  if (typeof text !== "string") {
+    throw new TypeError("text must be a string");
+  }
+
+  return Array.from(text, (char) => {
+    const upper = char.toUpperCase();
+    return char === upper ? char.toLowerCase() : upper;
+  }).join("");
+}

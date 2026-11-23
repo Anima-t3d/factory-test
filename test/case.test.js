@@ -1,6 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { camelCase, snakeCase, titleCase } from "../src/case.js";
+import { camelCase, snakeCase, swapCase, titleCase } from "../src/case.js";
 
 test("uppercases the first letter of each word and lowercases the rest", () => {
   assert.equal(titleCase("hello WORLD"), "Hello World");
@@ -129,4 +129,28 @@ test("camelCase throws a TypeError for non-string text", () => {
   assert.throws(() => camelCase(null), TypeError);
   assert.throws(() => camelCase(undefined), TypeError);
   assert.throws(() => camelCase(42), TypeError);
+});
+
+test("swapCase inverts the case of every letter", () => {
+  assert.equal(swapCase("Hello World"), "hELLO wORLD");
+  assert.equal(swapCase("hELLO wORLD"), "Hello World");
+});
+
+test("swapCase returns an empty string for an empty string", () => {
+  assert.equal(swapCase(""), "");
+});
+
+test("swapCase leaves characters without case unchanged", () => {
+  assert.equal(swapCase("a1-B_c! 🙂"), "A1-b_C! 🙂");
+});
+
+test("swapCase handles non-ASCII letters and surrogate pairs", () => {
+  assert.equal(swapCase("Éa"), "éA");
+  assert.equal(swapCase("\u{10428}\u{10400}"), "\u{10400}\u{10428}");
+});
+
+test("swapCase throws a TypeError for non-string text", () => {
+  assert.throws(() => swapCase(null), TypeError);
+  assert.throws(() => swapCase(undefined), TypeError);
+  assert.throws(() => swapCase(42), TypeError);
 });
