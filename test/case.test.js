@@ -1,6 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { snakeCase, titleCase } from "../src/case.js";
+import { camelCase, snakeCase, titleCase } from "../src/case.js";
 
 test("uppercases the first letter of each word and lowercases the rest", () => {
   assert.equal(titleCase("hello WORLD"), "Hello World");
@@ -84,4 +84,49 @@ test("snakeCase throws a TypeError for non-string text", () => {
   assert.throws(() => snakeCase(null), TypeError);
   assert.throws(() => snakeCase(undefined), TypeError);
   assert.throws(() => snakeCase(42), TypeError);
+});
+
+test("camelCase joins words split on spaces, dashes and underscores", () => {
+  assert.equal(camelCase("hello_world foo"), "helloWorldFoo");
+  assert.equal(camelCase("foo-bar_baz qux"), "fooBarBazQux");
+});
+
+test("camelCase lowercases the first word and capitalises later words", () => {
+  assert.equal(camelCase("HELLO_WORLD"), "helloWorld");
+  assert.equal(camelCase("Hello wORLD"), "helloWorld");
+});
+
+test("camelCase returns an empty string when there are no words", () => {
+  assert.equal(camelCase(""), "");
+  assert.equal(camelCase("   "), "");
+  assert.equal(camelCase("- _ -"), "");
+});
+
+test("camelCase drops leading, trailing and repeated separators", () => {
+  assert.equal(camelCase("__hello--world  "), "helloWorld");
+  assert.equal(camelCase(" -_foo _- bar_ "), "fooBar");
+  assert.equal(camelCase("foo\tbar\nbaz"), "fooBarBaz");
+});
+
+test("camelCase does not split existing camel humps", () => {
+  assert.equal(camelCase("helloWorld foo"), "helloworldFoo");
+});
+
+test("camelCase is the inverse of snakeCase for snake_case input", () => {
+  assert.equal(camelCase(snakeCase("helloWorld-foo bar")), "helloWorldFooBar");
+});
+
+test("camelCase keeps other characters inside words", () => {
+  assert.equal(camelCase("don't stop"), "don'tStop");
+  assert.equal(camelCase("version 2nd"), "version2nd");
+});
+
+test("camelCase does not split a surrogate pair", () => {
+  assert.equal(camelCase("a \u{10428}\u{10428}"), "a\u{10400}\u{10428}");
+});
+
+test("camelCase throws a TypeError for non-string text", () => {
+  assert.throws(() => camelCase(null), TypeError);
+  assert.throws(() => camelCase(undefined), TypeError);
+  assert.throws(() => camelCase(42), TypeError);
 });
