@@ -4,6 +4,32 @@ Branch: `lastlight/7-add-a-capitalizewords-helper`
 Repo: `Anima-t3d/factory-test`
 Issue: https://github.com/Anima-t3d/factory-test/issues/7
 
+## Current branch state (re-run of the architect phase, 2026-11-23)
+
+The work in this plan is **already on the branch** and must not be re-applied:
+
+- `src/slugify.js:144-170` already holds the JSDoc block and `export function capitalizeWords(text)`
+  exactly as specified under Implementation approach (lines 1-142 are unchanged).
+- `test/capitalizeWords.test.js` (72 lines, 11 tests) already exists and covers every item in Test strategy.
+- `npm test` on the branch head (`bf160b9`): **37 tests, 37 pass, 0 fail** (26 existing + 11 new).
+- PR #8 is open for this branch (per `status.md`).
+
+**Executor instruction:** do NOT append `capitalizeWords` again. A second `export function capitalizeWords`
+is a duplicate declaration, so the module would fail to load and every test file would break. Instead:
+1. Confirm `grep -c "export function capitalizeWords" src/slugify.js` prints `1`, and that the body matches the
+   Implementation approach block below.
+2. Confirm `test/capitalizeWords.test.js` matches Test strategy items 1-10.
+3. Run `npm test` and record the result. If both checks match and the tests pass, make no code changes.
+   If anything is different, edit it to match this plan. Do not rewrite it from scratch.
+
+**Relation to `main`:** `origin/main` has since gained `src/case.js` (`titleCase`, `snakeCase`, `camelCase`)
+and `test/case.test.js`. This branch does not touch those files, and `main`'s `src/slugify.js` still
+matches this branch's lines 1-142, so the PR merges without conflicts and no rebase is needed. Keep
+`capitalizeWords` in `src/slugify.js`, because the issue asks for it "next to `slugify`". Do not move it
+into `src/case.js` or merge it with `titleCase`. The two behave differently: `titleCase` lower-cases the
+rest of each word and splits only on U+0020, while `capitalizeWords` leaves the rest of each word as it is
+and splits on any `\s`.
+
 ## Problem Statement
 
 `src/slugify.js` exports two helpers, `slugify` (`src/slugify.js:15`) and `truncate`
@@ -24,13 +50,13 @@ each word untouched (`iPhone` -> `IPhone`), preserves all whitespace exactly, an
 
 ## Files to modify — exhaustive manifest
 
-`ls src test` → `src/slugify.js`, `test/slugify.test.js`, `test/truncate.test.js`.
+`ls src test` on this branch → `src/slugify.js`, `test/capitalizeWords.test.js` (already added), `test/slugify.test.js`, `test/truncate.test.js`.
 No barrels/index files, no locales, no adapters.
 
 | # | File | Anchor | Change |
 | - | ---- | ------ | ------ |
-| 1 | `src/slugify.js` | end of file, after `function splitsWord` (ends line 142) | Append JSDoc + `export function capitalizeWords(text)` exactly as in Implementation approach. Lines 1-142 stay byte-identical. |
-| 2 | `test/capitalizeWords.test.js` | new file | Tests from Test strategy. Imports: `import { test } from "node:test";`, `import assert from "node:assert/strict";`, `import { capitalizeWords } from "../src/slugify.js";` |
+| 1 | `src/slugify.js` | end of file, after `function splitsWord` (ends line 142); **already present at lines 144-170**, verify only | Append JSDoc + `export function capitalizeWords(text)` exactly as in Implementation approach. Lines 1-142 stay byte-identical. |
+| 2 | `test/capitalizeWords.test.js` | new file (**already present**, verify only) | Tests from Test strategy. Imports: `import { test } from "node:test";`, `import assert from "node:assert/strict";`, `import { capitalizeWords } from "../src/slugify.js";` |
 | 3 | `test/slugify.test.js` | whole file | **NO CHANGE** (regression fence; out of scope per triage). |
 | 4 | `test/truncate.test.js` | whole file | **NO CHANGE** (regression fence; out of scope per triage). |
 | 5 | `package.json`, `.github/workflows/test.yml`, `README.md`, `AGENTS.md` | — | **NO CHANGE.** `node --test` auto-discovers the new test file. |
