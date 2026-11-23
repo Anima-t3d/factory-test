@@ -3,7 +3,7 @@
 VERDICT: APPROVED
 
 ## Summary
-`capitalizeWords(text)` is appended to `src/slugify.js` as a JSDoc-documented named export, byte-for-byte as specified in the architect plan, with a new `test/capitalizeWords.test.js` covering every behaviour in the plan's test strategy. The regex `/(^|\s)(\S)/gu` correctly re-emits the preceding whitespace (exact whitespace preservation), leaves the rest of each word untouched, handles astral code points via the `u` flag, and non-strings throw `TypeError` consistent with `truncate`. No regressions; no unrelated files touched.
+`capitalizeWords` is added to `src/slugify.js` as a JSDoc-documented named export next to `slugify`/`truncate`, exactly as the architect plan specifies; lines 1-142 of the file are unchanged. The regex `/(^|\s)(\S)/gu` correctly capitalises the first code point of each whitespace-delimited word, preserves all whitespace, leaves the rest of each word untouched, and the `typeof` guard throws `TypeError` for non-strings. Tests in `test/capitalizeWords.test.js` cover every requirement in the issue plus edge cases (empty, runs of whitespace, NBSP, astral chars, `ß`, boxed `String`).
 
 ## Issues
 ### Critical
@@ -16,35 +16,27 @@ None.
 None.
 
 ### Nits
-- The harness commit subject `feat: implement #7` lacks the `(slugify)` scope the plan suggested (`feat(slugify): add a capitalizeWords helper`); worth using that wording for the squash-merge title.
+None.
 
 ## Test Results
-Typecheck: not configured (plain JavaScript, no tsconfig) — nothing to run. Lint: not configured.
+Typecheck/lint: not configured in this repo (plain JS, no tsconfig/eslint) — nothing to run.
 
 ```
 $ node --test test/capitalizeWords.test.js
-✔ returns an empty string unchanged
-✔ upper-cases the first character of a single word
-✔ upper-cases every word and keeps the whitespace exactly
-✔ leaves capitals inside a word untouched
-✔ preserves the whitespace of the input
-✔ starts a new word only after whitespace
-✔ leaves a first character without an upper-case form alone
-✔ treats non-ASCII whitespace as a word boundary and keeps it
-✔ upper-cases an astral first character as a whole code point
-✔ documents that upper-casing can make the result longer
-✔ throws a TypeError for non-string text
+✔ throws a TypeError for non-string text (0.793253ms)
 ℹ tests 11
-ℹ pass 11
-ℹ fail 0
-
-$ npm test
-ℹ tests 37
 ℹ suites 0
-ℹ pass 37
+ℹ pass 11
 ℹ fail 0
 ℹ cancelled 0
 ℹ skipped 0
 ℹ todo 0
+
+$ npm test
+ℹ tests 37
+ℹ pass 37
+ℹ fail 0
+EXIT=0
 ```
-Matches the executor's reported full-suite result (37 = 26 existing + 11 new).
+
+Matches the executor's reported full-suite result (37/37, exit 0).
