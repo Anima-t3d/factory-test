@@ -1,10 +1,7 @@
-current_phase: guardrails
-guardrails_status: GATE_PENDING
+current_phase: architect
 
-- Test framework: present (`node --test` via `npm test`), not run here by design.
-- Lint: absent (no linter configured) — not a blocker.
-- Typecheck: absent (no typecheck configured) — not a blocker.
-- Install: no dependencies; `npm install` exited 0, generated lockfile removed.
-- Gate script: `.git/lastlight-gate.sh` → `npm test`.
-
-Awaiting the harness full-suite run.
+- Plan written to `.lastlight/issue-21/architect-plan.md`.
+- Scope: `src/case.js` (append `swapCase`) and `test/case.test.js` (import + 5 tests).
+- Function name is `swapCase` per issue body (title says "reverseCase").
+- Gate: `npm test`. Complexity: simple.
+guardrails_status: READY
